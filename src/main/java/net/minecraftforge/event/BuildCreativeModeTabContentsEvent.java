@@ -13,7 +13,7 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.common.util.MutableHashedLinkedMap;
 import net.minecraftforge.eventbus.api.bus.BusGroup;
 import net.minecraftforge.eventbus.api.bus.EventBus;
-import net.minecraftforge.eventbus.api.event.MutableEvent;
+import net.minecraftforge.eventbus.api.event.RecordEvent;
 import net.minecraftforge.fml.LogicalSide;
 import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.NullMarked;
@@ -25,9 +25,17 @@ import java.util.function.Supplier;
  * This event may be fired multiple times if the operator status of the local player or enabled feature flags changes.
  * <p>
  * This event is fired only on the {@linkplain LogicalSide#CLIENT logical client}.
+ *
+ * @param getTab the creative mode tab currently populating its contents
+ * @param getTabKey the key of the creative mode tab currently populating its contents
  */
 @NullMarked
-public final class BuildCreativeModeTabContentsEvent extends MutableEvent implements CreativeModeTab.Output {
+public record BuildCreativeModeTabContentsEvent(
+        CreativeModeTab getTab,
+        ResourceKey<CreativeModeTab> getTabKey,
+        CreativeModeTab.ItemDisplayParameters getParameters,
+        MutableHashedLinkedMap<ItemStack, CreativeModeTab.TabVisibility> getEntries
+) implements RecordEvent, CreativeModeTab.Output {
     public static final EventBus<BuildCreativeModeTabContentsEvent> BUS = EventBus.create(BuildCreativeModeTabContentsEvent.class);
 
     @Deprecated(forRemoval = true, since = "1.21.9")
@@ -35,47 +43,15 @@ public final class BuildCreativeModeTabContentsEvent extends MutableEvent implem
         return BUS;
     }
 
-    private final CreativeModeTab tab;
-    private final CreativeModeTab.ItemDisplayParameters parameters;
-    private final MutableHashedLinkedMap<ItemStack, CreativeModeTab.TabVisibility> entries;
-    private final ResourceKey<CreativeModeTab> tabKey;
-
     @ApiStatus.Internal
-    public BuildCreativeModeTabContentsEvent(CreativeModeTab tab, ResourceKey<CreativeModeTab> tabKey, CreativeModeTab.ItemDisplayParameters parameters, MutableHashedLinkedMap<ItemStack, CreativeModeTab.TabVisibility> entries) {
-        this.tab = tab;
-        this.tabKey = tabKey;
-        this.parameters = parameters;
-        this.entries = entries;
-    }
-
-    /**
-     * {@return the creative mode tab currently populating its contents}
-     */
-    public CreativeModeTab getTab() {
-        return this.tab;
-    }
-
-    /**
-     * {@return the key of the creative mode tab currently populating its contents}
-     */
-    public ResourceKey<CreativeModeTab> getTabKey() {
-        return this.tabKey;
-    }
+    public BuildCreativeModeTabContentsEvent {}
 
     public FeatureFlagSet getFlags() {
-        return this.parameters.enabledFeatures();
-    }
-
-    public CreativeModeTab.ItemDisplayParameters getParameters() {
-        return parameters;
+        return getParameters.enabledFeatures();
     }
 
     public boolean hasPermissions() {
-        return this.parameters.hasPermissions();
-    }
-
-    public MutableHashedLinkedMap<ItemStack, CreativeModeTab.TabVisibility> getEntries() {
-        return this.entries;
+        return getParameters.hasPermissions();
     }
 
     @Override
