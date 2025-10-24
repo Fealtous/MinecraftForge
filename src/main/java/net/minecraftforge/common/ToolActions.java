@@ -69,7 +69,9 @@ public class ToolActions
      *  Used during player attack to figure out if a sweep attack should be performed
      *
      *  @see IForgeItem#getSweepHitBox
+     *  @deprecated Fully replaced by DataComponents#SWEEP
      */
+    @Deprecated(since="1.21.10")
     public static final ToolAction SWORD_SWEEP = ToolAction.get("sword_sweep");
 
     /**

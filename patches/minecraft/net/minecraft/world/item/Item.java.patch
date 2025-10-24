@@ -63,10 +63,11 @@
      public final ItemStack getCraftingRemainder() {
          return this.craftingRemainingItem == null ? ItemStack.EMPTY : new ItemStack(this.craftingRemainingItem);
      }
-@@ -354,6 +_,30 @@
+@@ -354,7 +_,31 @@
          return false;
      }
  
+-    public static class Properties {
 +    private Object renderProperties;
 +
 +    /*
@@ -91,9 +92,19 @@
 +
 +    public void initializeClient(java.util.function.Consumer<net.minecraftforge.client.extensions.common.IClientItemExtensions> consumer) { }
 +
-     public static class Properties {
++    public static class Properties implements net.minecraftforge.common.extensions.IForgeItemProperty {
          private static final DependantName<Item, String> BLOCK_DESCRIPTION_ID = p_367498_ -> Util.makeDescriptionId("block", p_367498_.location());
          private static final DependantName<Item, String> ITEM_DESCRIPTION_ID = p_367603_ -> Util.makeDescriptionId("item", p_367603_.location());
+         private final DataComponentMap.Builder components = DataComponentMap.builder().addAll(DataComponents.COMMON_ITEM_COMPONENTS);
+@@ -452,7 +_,7 @@
+         }
+ 
+         public Item.Properties sword(ToolMaterial p_395594_, float p_395179_, float p_392972_) {
+-            return p_395594_.applySwordProperties(this, p_395179_, p_392972_);
++            return p_395594_.applySwordProperties(this, p_395179_, p_392972_).sweepLikeSword();
+         }
+ 
+         public Item.Properties spawnEgg(EntityType<?> p_422939_) {
 @@ -599,6 +_,11 @@
  
          boolean isPeaceful();

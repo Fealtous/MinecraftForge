@@ -201,7 +201,7 @@
                              double d0 = this.getKnownMovement().horizontalDistanceSqr();
                              double d1 = this.getSpeed() * 2.5;
 -                            if (d0 < Mth.square(d1) && this.getItemInHand(InteractionHand.MAIN_HAND).is(ItemTags.SWORDS)) {
-+                            if (d0 < Mth.square(d1) && this.getItemInHand(InteractionHand.MAIN_HAND).canPerformAction(net.minecraftforge.common.ToolActions.SWORD_SWEEP)) {
++                            if (d0 < Mth.square(d1) && this.getItemInHand(InteractionHand.MAIN_HAND).getComponents().has(DataComponents.SWEEP)) {
                                  flag2 = true;
                              }
                          }

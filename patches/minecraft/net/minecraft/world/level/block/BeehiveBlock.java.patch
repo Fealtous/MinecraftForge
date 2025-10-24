@@ -5,7 +5,7 @@
          if (i >= 5) {
              Item item = p_331014_.getItem();
 -            if (p_329187_ instanceof ServerLevel serverlevel && p_331014_.is(Items.SHEARS)) {
-+            if (p_329187_ instanceof ServerLevel serverlevel && p_331014_.canPerformAction(net.minecraftforge.common.ToolActions.SHEARS_HARVEST)) {
++            if (p_329187_ instanceof ServerLevel serverlevel && p_331014_.getComponents().has(net.minecraft.core.component.DataComponents.CAN_SHEAR_HARVEST)) {
                  dropHoneycomb(serverlevel, p_331014_, p_328141_, p_329187_.getBlockEntity(p_335985_), p_336201_, p_335985_);
                  p_329187_.playSound(null, p_336201_.getX(), p_336201_.getY(), p_336201_.getZ(), SoundEvents.BEEHIVE_SHEAR, SoundSource.BLOCKS, 1.0F, 1.0F);
                  p_331014_.hurtAndBreak(1, p_336201_, p_333071_.asEquipmentSlot());

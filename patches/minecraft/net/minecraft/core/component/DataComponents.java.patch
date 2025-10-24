@@ -1,0 +1,16 @@
+--- a/net/minecraft/core/component/DataComponents.java
++++ b/net/minecraft/core/component/DataComponents.java
+@@ -374,6 +_,13 @@
+     public static final DataComponentType<DyeColor> SHULKER_COLOR = register(
+         "shulker/color", p_389661_ -> p_389661_.persistent(DyeColor.CODEC).networkSynchronized(DyeColor.STREAM_CODEC)
+     );
++    /* Forge components start */
++    public static final DataComponentType<Unit> SWEEP = register("sweep", builder -> builder.persistent(Unit.CODEC).networkSynchronized(Unit.STREAM_CODEC));
++    // Shear behavior
++    public static final DataComponentType<Unit> CAN_SHEAR_HARVEST = register("can_shear_harvest", builder -> builder.persistent(Unit.CODEC).networkSynchronized(Unit.STREAM_CODEC));
++    public static final DataComponentType<Unit> CAN_CARVE = register("can_carve", builder -> builder.persistent(Unit.CODEC).networkSynchronized(Unit.STREAM_CODEC));
++    public static final DataComponentType<Unit> CAN_DISARM = register("can_disarm", builder -> builder.persistent(Unit.CODEC).networkSynchronized(Unit.STREAM_CODEC));
++    /* Forge components end */
+     public static final DataComponentMap COMMON_ITEM_COMPONENTS = DataComponentMap.builder()
+         .set(MAX_STACK_SIZE, 64)
+         .set(LORE, ItemLore.EMPTY)
