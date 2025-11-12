@@ -6,6 +6,7 @@
 package net.minecraftforge.debug.client;
 
 import net.minecraft.client.renderer.LevelTargetBundle;
+import net.minecraft.client.renderer.state.LevelRenderState;
 import net.minecraftforge.client.FramePassManager;
 import net.minecraftforge.client.event.AddFramePassEvent;
 import net.minecraftforge.common.extensions.IForgeGameTestHelper;
@@ -48,18 +49,17 @@ public class RenderFrameLayerTest extends BaseTestMod {
      * If this is working, two white line box cubes will be rendered at ground level in a superflat world around (0,0)
      */
     public static void renderTest(AddFramePassEvent event) {
-        var mainCamera = Minecraft.getInstance().gameRenderer.getMainCamera();
         FramePassManager.PassDefinition def = new FramePassManager.PassDefinition() {
             @Override
-            public void targets(LevelTargetBundle bundle, FramePass pass) {
+            public void extracts(LevelTargetBundle bundle, FramePass pass) {
                 bundle.main = pass.readsAndWrites(bundle.main);
             }
 
             @Override
-            public void executes() {
+            public void executes(LevelRenderState state) {
                 PoseStack ps = new PoseStack();
                 passOne.set(true);
-                ps.translate(mainCamera.getPosition().multiply(-1,-1,-1));
+                ps.translate(state.cameraRenderState.entityPos.multiply(-1,-1,-1));
                 ps.pushPose();
                 var buffSource = Minecraft.getInstance().renderBuffers().bufferSource();
                 var vc = buffSource.getBuffer(RenderType.lines());
@@ -72,15 +72,15 @@ public class RenderFrameLayerTest extends BaseTestMod {
         event.addPass(rl(MODID), def);
         FramePassManager.PassDefinition def2 = new FramePassManager.PassDefinition() {
             @Override
-            public void targets(LevelTargetBundle bundle, FramePass pass) {
+            public void extracts(LevelTargetBundle bundle, FramePass pass) {
                 bundle.main = pass.readsAndWrites(bundle.main);
             }
 
             @Override
-            public void executes() {
+            public void executes(LevelRenderState state) {
                 PoseStack ps = new PoseStack();
                 passTwo.set(true);
-                ps.translate(mainCamera.getPosition().multiply(-1,-1,-1));
+                ps.translate(state.cameraRenderState.entityPos.multiply(-1,-1,-1));
                 ps.pushPose();
                 var buffSource = Minecraft.getInstance().renderBuffers().bufferSource();
                 var vc = buffSource.getBuffer(RenderType.lines());
