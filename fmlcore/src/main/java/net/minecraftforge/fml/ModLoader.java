@@ -6,6 +6,7 @@
 package net.minecraftforge.fml;
 
 import com.google.common.collect.ImmutableList;
+import net.minecraftforge.eventbus.api.bus.BusGroup;
 import net.minecraftforge.fml.event.IModBusEvent;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.fml.loading.FMLLoader;
@@ -232,7 +233,19 @@ public class ModLoader {
         for (IModLoadingState mls : stateList) {
             dispatchAndHandleError(mls, syncExecutor, parallelExecutor, periodicTask, progress);
         }
-        statusConsumer.accept(String.format("Mod loading complete - %d mods loaded", this.modList.size()));
+
+        var modBusGroups = Set.of(
+                modList.getLoadedMods().stream()
+                        .map(ModContainer::getModBusGroup)
+                        .filter(Objects::nonNull)
+                        .toArray(BusGroup[]::new)
+        );
+        for (var modBusGroup : modBusGroups) {
+            parallelExecutor.execute(modBusGroup::trim);
+        }
+        parallelExecutor.execute(BusGroup.DEFAULT::trim);
+
+        statusConsumer.accept("Mod loading complete - %d mods loaded".formatted(this.modList.size()));
         progress.complete();
     }
 
