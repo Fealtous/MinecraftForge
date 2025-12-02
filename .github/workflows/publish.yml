@@ -12,7 +12,8 @@ jobs:
     uses: MinecraftForge/SharedActions/.github/workflows/gradle.yml@main
     with:
       java: 21
-      gradle_tasks: 'setup build publish'
+      gradle_setup: './gradlew setup'
+      gradle_tasks: 'build publish'
       artifact_name: 'forge'
     secrets:
       DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
