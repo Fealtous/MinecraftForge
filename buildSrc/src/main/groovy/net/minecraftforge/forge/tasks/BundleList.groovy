@@ -19,6 +19,8 @@ abstract class BundleList extends DefaultTask {
         configure {
             dependsOn(project.tasks.universalJar)
             inputs.file(project.tasks.universalJar.archiveFile)
+            dependsOn(project.tasks.applyServerBinPatches)
+            inputs.file(project.tasks.applyServerBinPatches.output)
         }
     }
     
