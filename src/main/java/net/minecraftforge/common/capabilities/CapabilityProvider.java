@@ -13,6 +13,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.chunk.LevelChunk;
+import net.minecraft.world.level.storage.TagValueOutput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.ForgeEventFactory;
@@ -174,6 +176,16 @@ public abstract class CapabilityProvider<B extends ICapabilityProviderImpl<B>> i
         }
 
         return capabilities;
+    }
+
+
+    protected final @Nullable CompoundTag serializeCaps(ValueOutput output) {
+        if (isLazy && !initialized)
+            return lazyData;
+        var disp = getCapabilities();
+        if (disp == null || !(output instanceof TagValueOutput tagOutput) || tagOutput.lookup == null)
+            return null;
+        return disp.serializeNBT(tagOutput.lookup);
     }
 
     protected final @Nullable CompoundTag serializeCaps(HolderLookup.Provider registryAccess) {
