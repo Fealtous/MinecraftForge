@@ -320,7 +320,7 @@
      public boolean isPushedByFluid() {
          return true;
      }
-@@ -3594,9 +_,26 @@
+@@ -3500,9 +_,26 @@
          return Mth.lerp(p_344421_, this.yRotO, this.yRot);
      }
  
@@ -348,7 +348,7 @@
          } else {
              AABB aabb = this.getBoundingBox().deflate(0.001);
              int i = Mth.floor(aabb.minX);
-@@ -3608,28 +_,32 @@
+@@ -3514,28 +_,32 @@
              double d0 = 0.0;
              boolean flag = this.isPushedByFluid();
              boolean flag1 = false;
@@ -387,7 +387,7 @@
                                  }
                              }
                          }
-@@ -3637,6 +_,10 @@
+@@ -3543,6 +_,10 @@
                  }
              }
  
@@ -398,7 +398,7 @@
              if (vec3.length() > 0.0) {
                  if (k1 > 0) {
                      vec3 = vec3.scale(1.0 / k1);
-@@ -3647,6 +_,7 @@
+@@ -3553,6 +_,7 @@
                  }
  
                  Vec3 vec32 = this.getDeltaMovement();
@@ -406,7 +406,7 @@
                  vec3 = vec3.scale(p_204033_);
                  double d2 = 0.003;
                  if (Math.abs(vec32.x) < 0.003 && Math.abs(vec32.z) < 0.003 && vec3.length() < 0.0045000000000000005) {
-@@ -3656,8 +_,8 @@
+@@ -3562,8 +_,8 @@
                  this.setDeltaMovement(this.getDeltaMovement().add(vec3));
              }
  
