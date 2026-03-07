@@ -25,8 +25,7 @@ import net.minecraftforge.fml.LogicalSide;
  * This event is {@linkplain Cancellable cancellable}.
  * If the event is cancelled, the entity will not be added to the level.
  * <p>
- * This event is fired on the {@linkplain MinecraftForge#EVENT_BUS main Forge event bus}
- * on both logical sides.
+ * This event is fired on both logical sides.
  **/
 public record EntityJoinLevelEvent(Entity getEntity, Level getLevel, boolean loadedFromDisk)
         implements Cancellable, EntityEvent, RecordEvent {

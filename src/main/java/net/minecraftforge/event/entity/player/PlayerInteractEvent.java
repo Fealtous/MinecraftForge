@@ -40,7 +40,6 @@ import java.util.Objects;
 
 /**
  * PlayerInteractEvent is fired when a player interacts in some way.
- * All subclasses are fired on {@link MinecraftForge#EVENT_BUS}.
  * See the individual documentation on each subevent for more details.
  **/
 public sealed abstract class PlayerInteractEvent implements PlayerEvent, InheritableEvent {

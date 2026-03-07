@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * Fired on the {@link net.minecraftforge.common.MinecraftForge#EVENT_BUS forge bus}.
+ * Fired when there are missing registries of a world with respect to the actual loaded registries.
  */
 public final class MissingMappingsEvent extends MutableEvent {
     public static final EventBus<MissingMappingsEvent> BUS = EventBus.create(MissingMappingsEvent.class);

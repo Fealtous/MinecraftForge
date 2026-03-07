@@ -15,8 +15,7 @@ import org.jspecify.annotations.NullMarked;
 /**
  * Fired after all vanilla frame passes are added into the pass list.
  *
- * <p>This event is fired on the {@linkplain net.minecraftforge.common.MinecraftForge#EVENT_BUS main Forge event bus},
- * only on the {@linkplain net.minecraftforge.fml.LogicalSide#CLIENT logical client}.
+ * <p>This event is fired only on the {@linkplain net.minecraftforge.fml.LogicalSide#CLIENT logical client}.
  */
 @NullMarked
 public record AddFramePassEvent() implements RecordEvent {
@@ -25,11 +24,11 @@ public record AddFramePassEvent() implements RecordEvent {
      * Adds a frame pass to pass list.
      * Create a new {@linkplain FramePassManager.PassDefinition} to handle render targets and render code.
      *
-     * @param rl Resource location for frame pass name. Use RLs to avoid duplicate names.
+     * @param id Identifer for frame pass name, this will identify whose pass is rendering if the game crashes.
      * @param definition see usages of {@linkplain com.mojang.blaze3d.framegraph.FramePass} in {@linkplain net.minecraft.client.renderer.LevelRenderer}
      * @throws IllegalArgumentException If the name is a duplicate.
      */
-    public void addPass(Identifier rl, FramePassManager.PassDefinition definition) {
-        ForgeHooksClient.addFramePass(rl, definition);
+    public void addPass(Identifier id, FramePassManager.PassDefinition definition) {
+        ForgeHooksClient.addFramePass(id, definition);
     }
 }

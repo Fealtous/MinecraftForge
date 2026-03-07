@@ -34,7 +34,6 @@ import org.jetbrains.annotations.Nullable;
  * If this event is cancelled, the child Entity is not added to the world, and the parents <br>
  * will no longer attempt to mate.
  * <br>
- * This event is fired on the {@link MinecraftForge#EVENT_BUS}.
  **/
 public final class BabyEntitySpawnEvent extends MutableEvent implements Cancellable {
     public static final CancellableEventBus<BabyEntitySpawnEvent> BUS = CancellableEventBus.create(BabyEntitySpawnEvent.class);

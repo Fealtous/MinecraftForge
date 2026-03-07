@@ -55,8 +55,6 @@ public sealed abstract class ZombieEvent implements EntityEvent, InheritableEven
      *     <li>{@link Result#ALLOW} Zombie is summoned.</li>
      *     <li>{@link Result#DENY} Zombie is not summoned.</li>
      * </ul>
-     *
-     * This event is fired on the {@link MinecraftForge#EVENT_BUS}.
      **/
     public static final class SummonAidEvent extends ZombieEvent implements HasResult {
         public static final EventBus<SummonAidEvent> BUS = EventBus.create(SummonAidEvent.class);

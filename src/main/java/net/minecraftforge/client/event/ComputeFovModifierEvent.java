@@ -17,8 +17,7 @@ import org.jspecify.annotations.NullMarked;
 /**
  * Fired after the field of vision (FOV) modifier for the player is calculated to allow developers to adjust it further.
  *
- * <p>This event is fired on the {@linkplain MinecraftForge#EVENT_BUS main Forge event bus},
- * only on the {@linkplain LogicalSide#CLIENT logical client}.</p>
+ * <p>This event is fired only on the {@linkplain LogicalSide#CLIENT logical client}.</p>
  *
  * @see ViewportEvent.ComputeFov
  */

@@ -16,7 +16,6 @@ import org.jspecify.annotations.NullMarked;
  * Does not fire for the Integrated Server on a physical Client.
  * <br>
  * On the client, the GL Context is still valid when the event is fired.
- * Fired on the FORGE event bus.
  *
  * @author Curle
  */

@@ -17,6 +17,7 @@ import net.minecraftforge.eventbus.api.event.RecordEvent;
 /**
  * Commands are rebuilt whenever {@link ReloadableServerResources} is recreated.
  * You can use this event to register your commands whenever the {@link Commands} class in constructed.
+ * If you are strictly interested in registering client commands, see {@link net.minecraftforge.client.event.RegisterClientCommandsEvent}
  *
  * @param getDispatcher The command dispatcher for registering commands to be executed on the client
  * @param getCommandSelection The environment the command is being registered for

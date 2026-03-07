@@ -18,8 +18,7 @@ import org.jetbrains.annotations.ApiStatus;
 /**
  * Superclass for sound related events.
  *
- * <p>These events are fired on the {@linkplain MinecraftForge#EVENT_BUS main Forge event bus},
- * only on the {@linkplain LogicalSide#CLIENT logical client}.</p>
+ * <p>These events are fired only on the {@linkplain LogicalSide#CLIENT logical client}.</p>
  *
  * @see SoundSourceEvent
  * @see PlaySoundEvent
@@ -34,8 +33,7 @@ public sealed interface SoundEvent permits PlaySoundEvent, SoundEngineLoadEvent,
     /**
      * Superclass for when a sound has started to play on an audio channel.
      *
-     * <p>These events are fired on the {@linkplain MinecraftForge#EVENT_BUS main Forge event bus},
-     * only on the {@linkplain LogicalSide#CLIENT logical client}.</p>
+     * <p>These events are fired only on the {@linkplain LogicalSide#CLIENT logical client}.</p>
      *
      * @see PlaySoundSourceEvent
      * @see PlayStreamingSourceEvent

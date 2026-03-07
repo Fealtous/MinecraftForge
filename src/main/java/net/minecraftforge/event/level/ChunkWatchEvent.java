@@ -20,8 +20,7 @@ import net.minecraftforge.fml.LogicalSide;
  * The {@linkplain #getPlayer() player}'s level may not be the same as the {@linkplain #getLevel() level of the chunk}
  * when the player is teleporting to another dimension.
  * <p>
- * This event is fired on the {@linkplain MinecraftForge#EVENT_BUS main Forge event bus}
- * only on the {@linkplain LogicalSide#SERVER logical server}.
+ * These events are fired only on the {@linkplain LogicalSide#SERVER logical server}.
  **/
 public sealed interface ChunkWatchEvent extends InheritableEvent {
     EventBus<ChunkWatchEvent> BUS = EventBus.create(ChunkWatchEvent.class);
@@ -46,8 +45,7 @@ public sealed interface ChunkWatchEvent extends InheritableEvent {
      * <p>
      * This event may be used to send additional chunk-related data to the client.
      * <p>
-     * This event is fired on the {@linkplain MinecraftForge#EVENT_BUS main Forge event bus}
-     * only on the {@linkplain LogicalSide#SERVER logical server}.
+     * This event is fired only on the {@linkplain LogicalSide#SERVER logical server}.
      **/
     record Watch(ServerPlayer getPlayer, ChunkPos getPos, LevelChunk getChunk, ServerLevel getLevel)
             implements ChunkWatchEvent {
@@ -61,8 +59,7 @@ public sealed interface ChunkWatchEvent extends InheritableEvent {
     /**
      * This event is fired when server sends "forget chunk" packet to the {@link ServerPlayer}.
      * <p>
-     * This event is fired on the {@linkplain MinecraftForge#EVENT_BUS main Forge event bus}
-     * only on the {@linkplain LogicalSide#SERVER logical server}.
+     * This event is fired only on the {@linkplain LogicalSide#SERVER logical server}.
      **/
     record UnWatch(ServerPlayer getPlayer, ChunkPos getPos, ServerLevel getLevel) implements ChunkWatchEvent {
         public static final EventBus<UnWatch> BUS = EventBus.create(UnWatch.class);

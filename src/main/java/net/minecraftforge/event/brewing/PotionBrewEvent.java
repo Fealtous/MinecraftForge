@@ -51,8 +51,6 @@ public sealed abstract class PotionBrewEvent extends MutableEvent implements Inh
      * This event is {@link Cancellable}.<br>
      * If the event is not cancelled, the vanilla brewing will take place instead of modded brewing.
      * <br>
-     * This event is fired on the {@link MinecraftForge#EVENT_BUS}.<br>
-     * <br>
      * If this event is canceled, and items have been modified, PotionBrewEvent.Post will automatically be fired.
      **/
     public static final class Pre extends PotionBrewEvent implements Cancellable {
@@ -70,7 +68,6 @@ public sealed abstract class PotionBrewEvent extends MutableEvent implements Inh
      * <br>
      * {@link #stacks} contains the itemstack array from the TileEntityBrewer holding all items in Brewer.<br>
      * <br>
-     * This event is fired on the {@link MinecraftForge#EVENT_BUS}.<br>
      **/
     public static final class Post extends PotionBrewEvent {
         public static final EventBus<Post> BUS = EventBus.create(Post.class);

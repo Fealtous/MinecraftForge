@@ -19,8 +19,7 @@ import org.jetbrains.annotations.ApiStatus;
  * (such as a file), and used for sounds of long length which are unsuitable to keep fully loaded in-memory in a buffer
  * (as is done for regular non-streaming sounds), such as background music or music discs.
  *
- * <p>This event is fired on the {@linkplain MinecraftForge#EVENT_BUS main Forge event bus},
- * only on the {@linkplain LogicalSide#CLIENT logical client}.</p>
+ * <p>This event is fired only on the {@linkplain LogicalSide#CLIENT logical client}.</p>
  *
  * @see PlayStreamingSourceEvent
  */

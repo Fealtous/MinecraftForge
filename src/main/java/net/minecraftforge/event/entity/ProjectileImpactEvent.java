@@ -17,7 +17,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 /**
- * This event is fired on the {@link MinecraftForge#EVENT_BUS}.<br>
  * This event is fired when a projectile entity impacts something.<br>
  * This event is fired via {@link ForgeEventFactory#onProjectileImpact(Projectile, HitResult)}
  * This event is fired for all vanilla projectiles by Forge,

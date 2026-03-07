@@ -21,7 +21,6 @@ import net.minecraftforge.event.server.ServerAboutToStartEvent;
 
 /**
  * WandererTradesEvent is fired during the {@link ServerAboutToStartEvent}.  It is used to gather the trade lists for the wandering merchant.
- * It is fired on the {@link MinecraftForge#EVENT_BUS}.
  * The wandering merchant picks {@link Pool#rolls} from each {@link Pool}
  * To add trades to the merchant, simply add new trades to the list. {@link BasicItemListing} provides a default implementation.
 */

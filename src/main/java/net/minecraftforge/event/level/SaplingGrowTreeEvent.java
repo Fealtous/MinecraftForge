@@ -27,8 +27,7 @@ import org.jetbrains.annotations.Nullable;
  * using the features set on the event.
  * {@linkplain Result#DENY DENY} will prevent the sapling from growing.
  * <p>
- * This event is fired on the {@linkplain MinecraftForge#EVENT_BUS main Forge event bus}
- * only on the {@linkplain net.minecraftforge.fml.LogicalSide#SERVER logical server}.
+ * This event is fired only on the {@linkplain net.minecraftforge.fml.LogicalSide#SERVER logical server}.
  */
 // TODO: Rename to BlockFeatureGrowEvent in 1.20
 @Deprecated(forRemoval = true, since = "1.21.1") // Dont remove, rename

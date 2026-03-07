@@ -16,8 +16,6 @@ import org.jspecify.annotations.NullMarked;
 
 /**
  * PlayerXpEvent is fired whenever an event involving player experience occurs.
- * <br>
- * All children of this event are fired on the {@link MinecraftForge#EVENT_BUS}.
  */
 @NullMarked
 public sealed interface PlayerXpEvent extends PlayerEvent {

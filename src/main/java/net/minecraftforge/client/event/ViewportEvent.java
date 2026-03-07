@@ -26,8 +26,7 @@ import org.jspecify.annotations.NullMarked;
  * These can be used for customizing the visual features visible to the player.
  * See the various subclasses for listening to different features.
  *
- * <p>These events are fired on the {@linkplain MinecraftForge#EVENT_BUS main Forge event bus},
- * only on the {@linkplain LogicalSide#CLIENT logical client}.</p>
+ * <p>These events are fired only on the {@linkplain LogicalSide#CLIENT logical client}.</p>
  *
  * @see RenderFog
  * @see ComputeFogColor
@@ -56,8 +55,7 @@ public sealed interface ViewportEvent {
      * <p>This event is {@linkplain Cancellable cancellable}.<br>
      * The event must be cancelled for any changes to the plane distances to take effect.</p>
      *
-     * <p>This event is fired on the {@linkplain MinecraftForge#EVENT_BUS main Forge event bus},
-     * only on the {@linkplain LogicalSide#CLIENT logical client}.</p>
+     * <p>This event is fired only on the {@linkplain LogicalSide#CLIENT logical client}.</p>
      */
     record RenderFog(
             GameRenderer getRenderer,
@@ -141,8 +139,7 @@ public sealed interface ViewportEvent {
     /**
      * Fired for customizing the <b>color</b> of the fog visible to the player.
      *
-     * <p>This event is fired on the {@linkplain MinecraftForge#EVENT_BUS main Forge event bus},
-     * only on the {@linkplain LogicalSide#CLIENT logical client}.</p>
+     * <p>This event is fired only on the {@linkplain LogicalSide#CLIENT logical client}.</p>
      */
     final class ComputeFogColor extends MutableEvent implements ViewportEvent {
         public static final EventBus<ComputeFogColor> BUS = EventBus.create(ComputeFogColor.class);
@@ -233,8 +230,7 @@ public sealed interface ViewportEvent {
      * Fired to allow altering the angles of the player's camera.
      * This can be used to alter the player's view for different effects, such as applying roll.
      *
-     * <p>This event is fired on the {@linkplain MinecraftForge#EVENT_BUS main Forge event bus},
-     * only on the {@linkplain LogicalSide#CLIENT logical client}.</p>
+     * <p>This event is fired only on the {@linkplain LogicalSide#CLIENT logical client}.</p>
      */
     @NullMarked
     final class ComputeCameraAngles extends MutableEvent implements ViewportEvent {
@@ -325,8 +321,7 @@ public sealed interface ViewportEvent {
      * Fired for altering the raw field of view (FOV).
      * This is after the FOV settings are applied, and before modifiers such as the Nausea effect.
      *
-     * <p>This event is fired on the {@linkplain MinecraftForge#EVENT_BUS main Forge event bus},
-     * only on the {@linkplain LogicalSide#CLIENT logical client}.</p>
+     * <p>This event is fired only on the {@linkplain LogicalSide#CLIENT logical client}.</p>
      *
      * @see ComputeFovModifierEvent
      */
