@@ -115,7 +115,14 @@ public class ModFile implements IModFile {
         LOGGER.debug(LogMarkers.LOADING,"Loading mod file {} with languages {}", this.getFilePath(), this.modFileInfo.requiredLanguageLoaders());
         this.coreMods = ModFileParser.getCoreMods(this);
         this.coreMods.forEach(mi-> LOGGER.debug(LogMarkers.LOADING,"Found coremod {}", mi.getPath()));
-        var cfg = this.modFileInfo.getConfig().<List<String>>getConfigElement("accessTransformers").orElse(null);
+        List<String> cfg;
+        // Note: Some mods may have invalid tomls copied from other projects.
+        // Unfortunately we must protect against those landmines.
+        try {
+            cfg = this.modFileInfo.getConfig().<List<String>>getConfigElement("accessTransformers").orElse(null);
+        } catch (Exception e) {
+            cfg = null;
+        }
         if (cfg == null) {
             var path = findResource("META-INF", "accesstransformer.cfg");
             if (Files.exists(path)) {
