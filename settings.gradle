@@ -30,7 +30,7 @@ dependencyResolutionManagement {
             library('accesstransformers', 'net.minecraftforge:accesstransformers:8.2.2')
             library('coremods', 'net.minecraftforge:coremods:5.2.6')
             library('nashorn', 'org.openjdk.nashorn:nashorn-core:15.4') // Needed by coremods, because the JRE no longer ships JS
-            library('eventbus', 'net.minecraftforge:eventbus:6.2.27')
+            library('eventbus', 'net.minecraftforge:eventbus:6.2.33')
             library('typetools', 'net.jodah:typetools:0.6.3') // Needed by EventBus because of lambdas
             library('mergetool-api', 'net.minecraftforge:mergetool-api:1.0')
 
@@ -50,7 +50,7 @@ dependencyResolutionManagement {
             library('bootstrap-shim', 'net.minecraftforge', 'bootstrap-shim').versionRef('bootstrap')
 
             // ASM it's used for so many of our hacks
-            version('asm', '9.8')
+            version('asm', '9.9.1')
             library('asm',          'org.ow2.asm', 'asm'         ).versionRef('asm')
             library('asm-tree',     'org.ow2.asm', 'asm-tree'    ).versionRef('asm')
             library('asm-util',     'org.ow2.asm', 'asm-util'    ).versionRef('asm')
