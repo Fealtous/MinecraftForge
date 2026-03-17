@@ -122,6 +122,7 @@ public class ModFile implements IModFile {
             cfg = this.modFileInfo.getConfig().<List<String>>getConfigElement("accessTransformers").orElse(null);
         } catch (Exception e) {
             cfg = null;
+            LOGGER.warn("{} contains an invalid 'accessTransformers' TOML entry. Falling back to default.", this.getFileName());
         }
         if (cfg == null) {
             var path = findResource("META-INF", "accesstransformer.cfg");
