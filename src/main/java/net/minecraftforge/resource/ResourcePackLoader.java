@@ -79,7 +79,7 @@ public class ResourcePackLoader {
 
     private static void findPacks(Consumer<Pack> packAcceptor, boolean client) {
         var type = client ? PackType.CLIENT_RESOURCES : PackType.SERVER_DATA;
-        var version = DetectedVersion.BUILT_IN.packVersion(PackType.CLIENT_RESOURCES);
+        var version = DetectedVersion.BUILT_IN.packVersion(type);
         var hiddenPacks = new ArrayList<PackResources>();
 
         for (var mod : ModList.get().getModFiles()) {
