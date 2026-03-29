@@ -735,22 +735,6 @@ public class ForgeHooksClient {
         return font.split(text, maxWidth).stream().map(ClientTooltipComponent::create);
     }
 
-    public static void createWorldConfirmationScreen(Runnable doConfirmedWorldLoad) {
-        Component title = Component.translatable("selectWorld.backupQuestion.experimental");
-        Component msg = Component.translatable("selectWorld.backupWarning.experimental")
-                .append("\n\n")
-                .append(Component.translatable("forge.selectWorld.backupWarning.experimental.additional"));
-
-        Screen screen = new ConfirmScreen(confirmed -> {
-            if (confirmed)
-                doConfirmedWorldLoad.run();
-            else
-                Minecraft.getInstance().setScreen(null);
-        }, title, msg, CommonComponents.GUI_PROCEED, CommonComponents.GUI_CANCEL);
-
-        Minecraft.getInstance().setScreen(screen);
-    }
-
     public static boolean renderFireOverlay(Player player, PoseStack mat) {
         return renderBlockOverlay(player, mat, RenderBlockScreenEffectEvent.OverlayType.FIRE, Blocks.FIRE.defaultBlockState(), player.blockPosition());
     }

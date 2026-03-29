@@ -23,7 +23,7 @@
 +                    continue;
 +                }
 +                codec.parse(ops, json).ifSuccess(parsed -> {
-+                    parsed = net.minecraftforge.common.ForgeHooks.onJsonDataParsed(codec, location, parsed);
++                    parsed = net.minecraftforge.common.ForgeHooks.onJsonDataParsed(codec, id, parsed);
 +                    if (parsed == null) return;
                      if (result.putIfAbsent(id, (T)parsed) != null) {
                          throw new IllegalStateException("Duplicate data file ignored with ID " + id);
