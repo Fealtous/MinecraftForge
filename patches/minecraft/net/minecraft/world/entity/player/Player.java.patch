@@ -332,7 +332,7 @@
                      ItemStack itemStack = this.inventory.getItem(i);
                      if (supportedProjectiles.test(itemStack)) {
 -                        return itemStack;
-+                        return net.minecraftforge.common.ForgeHooks.getProjectile(this, heldWeapon, heldProjectile);
++                        return net.minecraftforge.common.ForgeHooks.getProjectile(this, heldWeapon, itemStack);
                      }
                  }
  
