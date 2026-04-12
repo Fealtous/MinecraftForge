@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.block.dispatch.ModelState;
 import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.resources.model.ModelBaker;
+import net.minecraft.client.resources.model.cuboid.CuboidFace;
 import net.minecraft.client.resources.model.cuboid.FaceBakery;
 import net.minecraft.client.resources.model.cuboid.ItemModelGenerator;
 import net.minecraft.client.resources.model.geometry.BakedQuad;
@@ -91,15 +92,16 @@ public class UnbakedGeometryHelper {
         final BakedQuad.MaterialInfo texture,
         final BakedQuad.MaterialInfo template
     ) {
-        var spriteContents = template.sprite().contents();
-        int width = spriteContents.width(), height = spriteContents.height();
+        var sprite = template.sprite().contents();
+        int width = sprite.width();
+        int height = sprite.height();
         var bits = new BitSet(width * height);
 
         // For every frame in the texture, mark all the opaque pixels (this is what vanilla does too)
-        spriteContents.getUniqueFrames().forEach(frame -> {
+        sprite.getUniqueFrames().forEach(frame -> {
             for (int x = 0; x < width; x++)
                 for (int y = 0; y < height; y++)
-                    if (!spriteContents.isTransparent(frame, x, y))
+                    if (!sprite.isTransparent(frame, x, y))
                         bits.set(x + y * width);
         });
 
@@ -132,8 +134,10 @@ public class UnbakedGeometryHelper {
                     var to = new Vector3f(16 * x / (float) width, 16 - 16 * y / (float) height, 8.5F);
 
                     // Create element
-                    builder.addUnculledFace(FaceBakery.bakeQuad(interner, from, to, ItemModelGenerator.SOUTH_FACE_UVS, Quadrant.R0, texture, Direction.SOUTH, state, null));
-                    builder.addUnculledFace(FaceBakery.bakeQuad(interner, from, to, ItemModelGenerator.NORTH_FACE_UVS, Quadrant.R0, texture, Direction.NORTH, state, null));
+                    var southUvs = new CuboidFace.UVs(from.x, from.y, to.x, to.y);
+                    var northUvs = new CuboidFace.UVs(to.x, from.y, from.x, to.y);
+                    builder.addUnculledFace(FaceBakery.bakeQuad(interner, from, to, southUvs, Quadrant.R0, texture, Direction.SOUTH, state, null));
+                    builder.addUnculledFace(FaceBakery.bakeQuad(interner, from, to, northUvs, Quadrant.R0, texture, Direction.NORTH, state, null));
 
                     // Reset xStart
                     xStart = -1;

@@ -8,7 +8,6 @@ package net.minecraftforge.client.model;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import com.mojang.math.Transformation;
-
 import net.minecraft.client.renderer.block.dispatch.ModelState;
 import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
 import net.minecraft.client.resources.model.ModelBaker;
@@ -31,6 +30,7 @@ import net.minecraftforge.client.model.geometry.IGeometryLoader;
 import net.minecraftforge.client.model.geometry.StandaloneGeometryBakingContext;
 import net.minecraftforge.client.model.geometry.UnbakedGeometryHelper;
 import net.minecraftforge.registries.ForgeRegistries;
+
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
@@ -81,17 +81,26 @@ public class DynamicFluidContainerModel implements UnbakedGeometry {
     @Override
     public QuadCollection bake(TextureSlots textures, ModelBaker baker, ModelState state, ModelDebugName name, IGeometryBakingContext context) {
         Material fluidMaskLocation = textures.getMaterial("fluid");
+        Material coverLocation = textures.getMaterial("cover");
         Material stillMaterial = null;
 
         if (fluid != Fluids.EMPTY) {
             var stillTexture = IClientFluidTypeExtensions.of(fluid).getStillTexture();
-            stillMaterial = new Material(stillTexture);
+            if (stillTexture != null) {
+                // Models can no longer have textures across atlases, so redirect to the item model of the same name.
+                // Modders may need to make clones of their textures in the item atlas, or provide a custom atlas alias
+                if (stillTexture.getPath().startsWith("block/"))
+                    stillTexture = stillTexture.withPath(path -> "item/" + path.substring(6));
+                stillMaterial = new Material(stillTexture);
+            }
         }
+
 
         var materials = baker.materials();
         var baseMaterial = materials.resolveSlot(textures, "base", name);
         var fluidMaterial = stillMaterial == null ? null : materials.get(stillMaterial, name);
-        var coverMaterial = materials.resolveSlot(textures, "cover", name);
+        var coverMaterial = coverLocation == null ? null : materials.get(coverLocation, name);
+
         /*
          var particleSprite = sprites.resolveSlot(textures, "particle", name);
 
@@ -117,7 +126,7 @@ public class DynamicFluidContainerModel implements UnbakedGeometry {
             var templateMaterial = materials.get(fluidMaskLocation, name);
             if (templateMaterial != null) {
                 var transformedState = new SimpleModelState(transformation.compose(FLUID_TRANSFORM));
-                UnbakedGeometryHelper.bakeMaskedSprite(buf, baker.interner(), transformedState, info(baker, templateMaterial, 1), info(baker, fluidMaterial, 1));
+                UnbakedGeometryHelper.bakeMaskedSprite(buf, baker.interner(), transformedState, info(baker, fluidMaterial, 1), info(baker, templateMaterial, 1));
             }
         }
 

@@ -11,6 +11,10 @@ import net.minecraft.resources.Identifier;
 
 import java.util.Optional;
 
+/**
+* @deprecated Use Vanilla's {@link net.minecraft.client.data.AtlasProvider AtlasProvider}
+*/
+@Deprecated(forRemoval = true, since = "26.1.2")
 public class ForgeSpriteSourceProvider extends SpriteSourceProvider
 {
     public ForgeSpriteSourceProvider(PackOutput output, ExistingFileHelper fileHelper)

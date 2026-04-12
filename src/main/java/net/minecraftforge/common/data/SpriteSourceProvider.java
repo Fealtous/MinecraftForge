@@ -24,7 +24,10 @@ import java.util.function.BiConsumer;
  * allows adding additional textures to the atlas by adding {@link SpriteSource}s to the configuration.</p>
  * <p>See {@link SpriteSources} for the available sources and the constants in this class for the
  * atlases used in vanilla Minecraft</p>
+ *
+ * @deprecated Use Vanilla's {@link net.minecraft.client.data.AtlasProvider AtlasProvider}
  */
+@Deprecated(forRemoval = true, since = "26.1.2")
 public abstract class SpriteSourceProvider extends JsonCodecProvider<List<SpriteSource>>
 {
     protected static final Identifier BLOCKS_ATLAS = Identifier.withDefaultNamespace("blocks");
