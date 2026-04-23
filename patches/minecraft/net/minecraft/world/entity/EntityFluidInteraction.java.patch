@@ -166,7 +166,7 @@
 +    public final boolean isInFluid(java.util.function.BiPredicate<net.minecraftforge.fluids.FluidType, Double> predicate, boolean forAllTypes) {
 +        boolean match = false;
 +        for (var entry : this.trackerByFluidType.entrySet()) {
-+            if (predicate.test(entry.getKey(), entry.getValue().height)) {
++            if (entry.getValue().height > 0 && predicate.test(entry.getKey(), entry.getValue().height)) {
 +                match = true;
 +                if (!forAllTypes)
 +                    return true;
