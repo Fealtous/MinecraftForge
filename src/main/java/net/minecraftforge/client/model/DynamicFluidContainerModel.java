@@ -113,8 +113,10 @@ public class DynamicFluidContainerModel implements UnbakedGeometry {
 
         // TODO: [Forge][Rendering] See if we can get rid of SimpleModelState and wrap transforms completely
         // If the fluid is lighter than air, rotate 180deg to turn it upside down
-        if (flipGas && fluid != Fluids.EMPTY && fluid.getFluidType().isLighterThanAir())
+        if (flipGas && fluid != Fluids.EMPTY && fluid.getFluidType().isLighterThanAir()) {
             transformation = transformation.compose(new Transformation(null, new Quaternionf(0, 0, 1, 0), null, null));
+            state = new SimpleModelState(transformation);
+        }
 
         var buf = new QuadCollection.Builder();
 

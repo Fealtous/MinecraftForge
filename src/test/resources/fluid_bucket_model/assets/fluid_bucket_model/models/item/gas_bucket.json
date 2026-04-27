@@ -1,9 +1,9 @@
 {
   "parent": "forge:item/bucket",
   "flip_gas": true,
-  "fluid": "minecraft:lava",
+  "fluid": "fluid_bucket_model:gas",
   "loader": "forge:fluid_container",
   "textures": {
-    "particle": "minecraft:block/lava_still"
+    "particle": "minecraft:block/water_still"
   }
 }

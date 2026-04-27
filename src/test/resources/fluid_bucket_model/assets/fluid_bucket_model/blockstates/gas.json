@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "fluid_bucket_model:block/gas"
+    }
+  }
+}
