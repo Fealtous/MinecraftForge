@@ -88,6 +88,17 @@ public final class ForgeLayeredDraw implements ForgeLayer {
     }
 
     /**
+     * Adds a full draw stack and assumes condition is always true.
+     * Use {@linkplain ForgeLayeredDraw#putAbove} and {@linkplain ForgeLayeredDraw#putBelow} for fine location adjustment.
+     * @param name RL of the name to identify this stack with.
+     * @param layeredDraw the draw stack
+     * @return this
+     */
+    public ForgeLayeredDraw add(Identifier name, ForgeLayeredDraw layeredDraw) {
+        return add(name, layeredDraw, () -> true);
+    }
+
+    /**
      * Add a layer to the layer list. This layer will be at the end of the list, which means
      * it will be rendered last (on top) of already added layers.
      * @param name RL for other mods to order against.
