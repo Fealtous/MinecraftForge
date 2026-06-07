@@ -291,6 +291,28 @@ public final class ForgeLayeredDraw implements ForgeLayer {
     }
 
     /**
+     * Replaces the renderer of a single layer and logs whodunnit, this is not recommended for obvious reasons.
+     * Will not work if target is a ForgeLayeredDraw
+     * Prefer {@linkplain ForgeLayeredDraw#addConditionTo}
+     * @param expectedLocation Layer stack where the target should be.
+     * @param targetLayer Target whose renderer should be replaced.
+     * @param replacementRenderer Renderer to use instead.
+     * @return this
+     */
+    public ForgeLayeredDraw replace(Identifier expectedLocation, Identifier targetLayer, ForgeLayer replacementRenderer) {
+        locateStack(expectedLocation).ifPresentOrElse((stack) -> {
+            if (stack.namedLayers.get(targetLayer) != null) {
+                stack.namedLayers.put(targetLayer, replacementRenderer);
+                LogUtils.getLogger().debug("ForgeLayer {} in {} was replaced by {}.", targetLayer, expectedLocation, replacementRenderer);
+            } else {
+                LogUtils.getLogger().debug("ForgeLayer {} in {} was attempted to be replaced by {}, but it did not exist.", targetLayer, expectedLocation, replacementRenderer);
+            }
+        }, () -> stackNotPresentWarning(expectedLocation));
+
+        return this;
+    }
+
+    /**
      * Propagate the layer order down to the inner render list after providing modders an opportunity to alter the list as they wish.
      * @apiNote Modders should <emph>NEVER</emph> be calling this method.
      * @return this
