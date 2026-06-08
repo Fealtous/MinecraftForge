@@ -20,7 +20,6 @@ import org.jspecify.annotations.NullMarked;
 
 import java.util.*;
 import java.util.function.BooleanSupplier;
-import java.util.function.Supplier;
 
 /**
  * As vanilla has switched to a layered drawing system for overlays, this system replaces ForgeGui and its associated headaches.
