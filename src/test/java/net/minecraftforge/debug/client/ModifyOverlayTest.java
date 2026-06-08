@@ -5,6 +5,10 @@
 
 package net.minecraftforge.debug.client;
 
+import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.resources.Identifier;
 import net.minecraftforge.client.event.AddGuiOverlayLayersEvent;
@@ -39,6 +43,10 @@ public class ModifyOverlayTest extends BaseTestMod {
     private static final ForgeLayer layerC = (gg,tr) -> {};
     private static final Identifier layerCName = name("layer_c");
 
+    // Wrapper renderer since we just need to change the callee location to test
+    private static final ForgeLayer replacementRenderer = (gg, tracker) -> {
+        Minecraft.getInstance().gui.extractEffects(gg, tracker);
+    };
 
     private static final IForgeGameTestHelper.BoolFlag detectConditionFlag = new IForgeGameTestHelper.BoolFlag("det_cond_flag");
     private static final IForgeGameTestHelper.BoolFlag detectConditionStackFlag = new IForgeGameTestHelper.BoolFlag("det_cond_stack_flag");
@@ -119,6 +127,25 @@ public class ModifyOverlayTest extends BaseTestMod {
         });
     }
 
+    @GameTest
+    public static void replace_renderer(GameTestHelper helper) {
+        Map<Identifier, ForgeLayer> layerMap = null;
+        try {
+            Class<?> cls = drawStack.getClass();
+            var field = cls.getDeclaredField("subLayerStacks");
+            var field1 = cls.getDeclaredField("namedLayers");
+            field.setAccessible(true);
+            field1.setAccessible(true);
+            Map<Identifier, Map.Entry<ForgeLayeredDraw, BooleanSupplier>> VROOT = ((Map<Identifier, Map.Entry<ForgeLayeredDraw, BooleanSupplier>>) field.get(drawStack));
+            var PSS = ((ForgeLayeredDraw) VROOT.get(PRE_SLEEP_STACK).getKey());
+            layerMap = ((Map<Identifier, ForgeLayer>) field1.get(PSS));
+        } catch (Exception e) {
+            helper.fail("Threw a " + e.getMessage() + " when trying to get the inner layer list.");
+        }
+        helper.assertTrue(layerMap.get(POTION_EFFECTS) == replacementRenderer, "Replacement renderer for POTION_EFFECTS was not actually set.");
+        helper.succeed();
+    }
+
     private void overlayTestListener(AddGuiOverlayLayersEvent event) {
         drawStack = event.getLayeredDraw();
         var layeredDraw = event.getLayeredDraw();
@@ -128,6 +155,7 @@ public class ModifyOverlayTest extends BaseTestMod {
         // Layers have to be present to be ordered against, of course, but we tested for that already above.
         pEffects.addAbove(layerBName, POTION_EFFECTS, layerB);
         pEffects.addAbove(layerCName, layerBName, layerC);
+        layeredDraw.replace(PRE_SLEEP_STACK, POTION_EFFECTS, replacementRenderer);
         layeredDraw.addBelow(PRE_SLEEP_STACK, layerAName, layerBName, layerA);
         layeredDraw.addConditionTo(PRE_SLEEP_STACK, BOSS_OVERLAY, () -> {
             if (enableConditionFlag.getBool()) {
