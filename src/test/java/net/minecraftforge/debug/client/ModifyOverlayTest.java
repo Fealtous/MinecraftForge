@@ -43,9 +43,11 @@ public class ModifyOverlayTest extends BaseTestMod {
     private static final ForgeLayer layerC = (gg,tr) -> {};
     private static final Identifier layerCName = name("layer_c");
 
+    private static final IForgeGameTestHelper.BoolFlag detectReplaceFlag = new IForgeGameTestHelper.BoolFlag("det_replace_flag");
     // Wrapper renderer since we just need to change the callee location to test
     private static final ForgeLayer replacementRenderer = (gg, tracker) -> {
         Minecraft.getInstance().gui.extractEffects(gg, tracker);
+        detectReplaceFlag.set(true);
     };
 
     private static final IForgeGameTestHelper.BoolFlag detectConditionFlag = new IForgeGameTestHelper.BoolFlag("det_cond_flag");
@@ -129,20 +131,8 @@ public class ModifyOverlayTest extends BaseTestMod {
 
     @GameTest
     public static void replace_renderer(GameTestHelper helper) {
-        Map<Identifier, ForgeLayer> layerMap = null;
-        try {
-            Class<?> cls = drawStack.getClass();
-            var field = cls.getDeclaredField("subLayerStacks");
-            var field1 = cls.getDeclaredField("namedLayers");
-            field.setAccessible(true);
-            field1.setAccessible(true);
-            Map<Identifier, Map.Entry<ForgeLayeredDraw, BooleanSupplier>> VROOT = ((Map<Identifier, Map.Entry<ForgeLayeredDraw, BooleanSupplier>>) field.get(drawStack));
-            var PSS = ((ForgeLayeredDraw) VROOT.get(PRE_SLEEP_STACK).getKey());
-            layerMap = ((Map<Identifier, ForgeLayer>) field1.get(PSS));
-        } catch (Exception e) {
-            helper.fail("Threw a " + e.getMessage() + " when trying to get the inner layer list.");
-        }
-        helper.assertTrue(layerMap.get(POTION_EFFECTS) == replacementRenderer, "Replacement renderer for POTION_EFFECTS was not actually set.");
+        helper.assertTrue(detectReplaceFlag.getBool(), "Replace flag was not set.");
+        detectReplaceFlag.set(false);
         helper.succeed();
     }
 
