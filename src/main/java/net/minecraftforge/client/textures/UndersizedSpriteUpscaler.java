@@ -18,14 +18,18 @@ public class UndersizedSpriteUpscaler {
         for (int i = 0; i < sprites.size(); i++) {
             var spriteInfo = sprites.get(i);
             int lowestTextureBit = Math.min(Integer.lowestOneBit(spriteInfo.width()), Integer.lowestOneBit(spriteInfo.height()));
-            if (lowestTextureBit < lowestOneBit) { // Same as vanilla's check, but we mark the bad sprites.
+            if (lowestTextureBit < lowestOneBit) {
+                // Same as vanilla's check, but we mark the bad sprites.
+                // We update sprites in place under the assumption that order is significant.
                 undersizedSprites.add(new SpriteTargetData(i, Mth.log2(lowestTextureBit)));
-                LogUtils.getLogger().debug("Found undersized sprite: {} had dimensions {} x {} which would limit mip level from {} to {}. Correcting.",
+                LogUtils.getLogger().debug("Found undersized sprite: {} had dimensions {} x {} which would limit mip" +
+                                " level from {} to {}. Correcting to restore mip level {}.",
                         spriteInfo.name(),
                         spriteInfo.width(),
                         spriteInfo.height(),
                         Mth.log2(lowestOneBit),
-                        Mth.log2(lowestTextureBit));
+                        Mth.log2(lowestTextureBit),
+                        expectedMipLevels);
             }
         }
         updateSprites(newSpriteList, undersizedSprites, expectedMipLevels);
@@ -33,14 +37,14 @@ public class UndersizedSpriteUpscaler {
     }
 
     private static void updateSprites(List<SpriteContents> sprites, List<SpriteTargetData> targets, int targetMips) {
+        UpscaleFunction upscaleFunction = ForgeConfig.CLIENT.mipmapUpscalingMethod.get().method;
         for (SpriteTargetData target : targets) {
             var original = sprites.get(target.index);
-            // Scale the sprite only by what is needed
             int newWidth = original.width() << (Math.max(0, targetMips - target.availableMips));
             int newHeight = original.height() << (Math.max(0, targetMips - target.availableMips));
             var newSpriteImage = new NativeImage(newWidth,newHeight,false);
             var ratio = (int) Mth.sqrt(newSpriteImage.getPixels().length / original.getOriginalImage().getPixels().length);
-            ForgeConfig.CLIENT.mipmapUpscalingMethod.get().method.process(sprites.get(target.index), newSpriteImage, ratio);
+            upscaleFunction.process(sprites.get(target.index), newSpriteImage, ratio);
             var newSprite =new SpriteContents(original.name(),
                     new FrameSize(newWidth, newHeight),
                     newSpriteImage);
@@ -72,14 +76,15 @@ public class UndersizedSpriteUpscaler {
     // Let 1,2,3,4 be the output pixels for a given pass.
     // 1 2
     // 3 4
-    // Algo is as follows:
+    //
     // Initialize 1=P; 2=P; 3=P; 4=P;
-    // If given source px OOB, inherit P instead.
+    // If A,B,C,D are out of bounds, inherit P.
+    //
     // IF C==A AND C!=D AND A!=B => 1=A
     // IF A==B AND A!=C AND B!=D => 2=B
     // IF D==C AND D!=B AND C!=A => 3=C
     // IF B==D AND B!=A AND D!=C => 4=D
-    // Apply algorithm again to result until size is reached.
+    // Apply algorithm again to result until desired size is reached.
     private static void advMAME2x(final SpriteContents original, final NativeImage upscale, int ratio) {
         int applyN = Mth.log2(ratio);
         NativeImage last = original.getOriginalImage();
